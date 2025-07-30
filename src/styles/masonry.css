@@ -1,0 +1,340 @@
+/* Masonry Layout Styles */
+.masonry-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 20px;
+    grid-auto-rows: min-content;
+    align-items: start;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .masonry-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+/* Card Styles with Masonry Support */
+.masonry-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    position: relative;
+    width: 100%;
+    height: fit-content;
+}
+
+.masonry-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.masonry-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    border-radius: 16px 16px 0 0;
+}
+
+/* Card Content Adjustments */
+.masonry-card .MuiCardContent-root {
+    flex-grow: 1;
+    padding: 20px !important;
+    position: relative;
+    min-height: fit-content;
+}
+
+.masonry-card .MuiCardActions-root {
+    padding: 16px 20px 20px 20px !important;
+    background: rgba(248, 250, 252, 0.8);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(226, 232, 240, 0.5);
+    margin-top: auto;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+/* Header Card Special Styling */
+.masonry-header-card {
+    grid-column: 1 / -1;
+    margin-bottom: 32px;
+    border-radius: 20px !important;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+}
+
+.masonry-header-card::before {
+    height: 6px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+}
+
+/* Company Overview Card - Span 2 columns on larger screens */
+.masonry-overview-card {
+    border-radius: 20px !important;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+}
+
+@media (min-width: 900px) {
+    .masonry-overview-card {
+        grid-column: span 2;
+    }
+}
+
+.masonry-overview-card::before {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Pain Points Card */
+.masonry-pain-points-card::before {
+    background: linear-gradient(90deg, #f56565 0%, #ed8936 100%);
+}
+
+/* Sales Pitch Card */
+.masonry-sales-pitch-card::before {
+    background: linear-gradient(90deg, #48bb78 0%, #38a169 100%);
+}
+
+/* Company Details Card */
+.masonry-company-details-card::before {
+    background: linear-gradient(90deg, #4299e1 0%, #3182ce 100%);
+}
+
+/* Contact Info Card */
+.masonry-contact-card::before {
+    background: linear-gradient(90deg, #38b2ac 0%, #319795 100%);
+}
+
+/* Decision Makers Card */
+.masonry-decision-makers-card::before {
+    background: linear-gradient(90deg, #9f7aea 0%, #805ad5 100%);
+}
+
+/* Technologies Card */
+.masonry-technologies-card::before {
+    background: linear-gradient(90deg, #ed64a6 0%, #d53f8c 100%);
+}
+
+/* Premium Insights Card */
+.masonry-premium-card {
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 193, 7, 0.1) 100%);
+    position: relative;
+}
+
+@media (min-width: 900px) {
+    .masonry-premium-card {
+        grid-column: span 2;
+    }
+}
+
+.masonry-premium-card::before {
+    background: linear-gradient(90deg, #ffd700 0%, #ffc107 50%, #ff9800 100%);
+    height: 6px;
+}
+
+.masonry-premium-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    background: linear-gradient(45deg, #ffd700, #ffc107, #ff9800);
+    border-radius: 20px;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+}
+
+/* Icon Styling */
+.masonry-card .card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 14px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.masonry-card .card-icon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    opacity: 0.1;
+    border-radius: inherit;
+}
+
+/* Button Enhancements */
+.masonry-card .MuiButton-root {
+    border-radius: 12px;
+    text-transform: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.masonry-card .MuiButton-root:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Chip Enhancements */
+.masonry-card .MuiChip-root {
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.masonry-card .MuiChip-root:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Typography Enhancements */
+.masonry-card .card-title {
+    background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    margin-bottom: 0;
+    font-size: 1.1rem;
+    line-height: 1.3;
+}
+
+/* List Items */
+.masonry-card .MuiListItem-root {
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 6px;
+    min-height: auto;
+}
+
+.masonry-card .MuiListItem-root:hover {
+    background: rgba(102, 126, 234, 0.05);
+    border-radius: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
+    transition: all 0.3s ease;
+}
+
+.masonry-card .MuiList-root {
+    padding: 0;
+}
+
+.masonry-card .MuiListItemText-root {
+    margin: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1200px) {
+    .masonry-container {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 18px;
+    }
+}
+
+@media (max-width: 960px) {
+    .masonry-container {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 16px;
+    }
+
+    .masonry-card .MuiCardContent-root {
+        padding: 18px !important;
+    }
+
+    .masonry-card .MuiCardActions-root {
+        padding: 14px 18px 18px 18px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .masonry-container {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 0 8px;
+    }
+
+    .masonry-card .MuiCardContent-root {
+        padding: 16px !important;
+    }
+
+    .masonry-card .MuiCardActions-root {
+        padding: 12px 16px 16px 16px !important;
+    }
+
+    .masonry-overview-card,
+    .masonry-premium-card {
+        grid-column: 1;
+    }
+}
+
+/* Animation for card entrance */
+@keyframes cardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.masonry-card {
+    animation: cardFadeIn 0.6s ease-out;
+}
+
+.masonry-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.masonry-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.masonry-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.masonry-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.masonry-card:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.masonry-card:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+.masonry-card:nth-child(7) {
+    animation-delay: 0.7s;
+}
+
+.masonry-card:nth-child(8) {
+    animation-delay: 0.8s;
+}
