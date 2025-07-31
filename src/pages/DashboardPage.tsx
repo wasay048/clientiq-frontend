@@ -178,10 +178,7 @@ const DashboardPage: React.FC = () => {
                             border: '1px solid rgba(255, 255, 255, 0.3)',
                         }}
                     >
-                        <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                            {user?.role === 'premium' ? '✨ Premium Plan' : '📊 Basic Plan'} -
-                            {user?.role === 'premium' ? ' 5 pain points, detailed insights, alternative pitches' : ' 3 pain points, company overview, custom pitches'}
-                        </Typography>
+
                     </Box>
                 </Box>
 

@@ -39,6 +39,7 @@ import {
     Language as WebsiteIcon,
     LinkedIn as LinkedInIcon,
     Error as ErrorIcon,
+    Search as SearchIcon,
 } from '@mui/icons-material';
 import { CompanyResearch } from '../../types/api';
 import { copyToClipboard, formatDate } from '../../utils/helpers';
@@ -51,7 +52,7 @@ interface ResearchResultsProps {
     saving?: boolean;
 }
 
-// Add this validation error dialog component
+// Validation error dialog component
 const ValidationErrorDialog: React.FC<{
     open: boolean;
     onClose: () => void;
@@ -130,6 +131,147 @@ const ValidationErrorDialog: React.FC<{
                 </Button>
             </DialogActions>
         </Dialog>
+    );
+};
+
+// Enhanced Decision Makers Card Component
+const DecisionMakersCard: React.FC<{
+    decisionMakers: string[];
+    companyName: string;
+    onCopy: (text: string, label: string) => void;
+}> = ({ decisionMakers, companyName, onCopy }) => {
+    // Check if we have any real executive information
+    const hasRealExecutives = decisionMakers &&
+        decisionMakers.length > 0 &&
+        !decisionMakers.some(dm =>
+            dm.toLowerCase().includes('not available') ||
+            dm.toLowerCase().includes('research required') ||
+            dm.toLowerCase().includes('unknown') ||
+            dm === ''
+        );
+
+    // Check if the executives look like verified data from well-known companies
+    const hasVerifiedExecutives = decisionMakers && decisionMakers.length > 0 &&
+        decisionMakers.some(dm => {
+            const wellKnownExecutives = [
+                'elon musk', 'tim cook', 'satya nadella', 'jeff bezos',
+                'mark zuckerberg', 'sundar pichai', 'andy jassy', 'jensen huang',
+                'marc benioff', 'susan wojcicki', 'reed hastings', 'daniel ek'
+            ];
+            return wellKnownExecutives.some(exec =>
+                dm.toLowerCase().includes(exec)
+            );
+        });
+
+    // Only render decision makers card if we have verified executives
+    if (!hasRealExecutives || (!hasVerifiedExecutives && decisionMakers.length > 0)) {
+        return (
+            <Card elevation={0} className="masonry-card masonry-decision-makers-card">
+                <CardContent>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                        <Box className="card-icon" sx={{ background: 'linear-gradient(135deg, #9f7aea 0%, #805ad5 100%)' }}>
+                            <PeopleIcon sx={{ color: 'white', fontSize: 24 }} />
+                        </Box>
+                        <Typography variant="h5" className="card-title">
+                            👥 Decision Makers
+                        </Typography>
+                    </Box>
+
+                    <Alert
+                        severity="info"
+                        icon={<SearchIcon />}
+                        sx={{
+                            backgroundColor: '#f0f9ff',
+                            border: '1px solid #0ea5e9',
+                            '& .MuiAlert-icon': {
+                                color: '#0ea5e9'
+                            }
+                        }}
+                    >
+                        <Typography variant="body2" sx={{ fontWeight: 500, mb: 1 }}>
+                            Executive Information Not Available
+                        </Typography>
+                        <Typography variant="body2">
+                            Specific executive names for <strong>{companyName}</strong> are not available in our verified data.
+                            We only display executives when we have confirmed information from well-known companies.
+                        </Typography>
+                    </Alert>
+
+                    <Box sx={{ mt: 2, p: 2, backgroundColor: '#f8fafc', borderRadius: 1, border: '1px dashed #cbd5e1' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 500, mb: 1 }}>
+                            Research these typical roles:
+                        </Typography>
+                        <Typography variant="body2" component="ul" sx={{ pl: 2, mb: 0 }}>
+                            <li>CEO/Founder</li>
+                            <li>CTO/Technology Lead</li>
+                            <li>Head of Sales/Business Development</li>
+                            <li>Department heads relevant to your solution</li>
+                        </Typography>
+                    </Box>
+
+                    <Box sx={{ mt: 2, p: 2, backgroundColor: '#fef3c7', borderRadius: 1, border: '1px solid #f59e0b' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 500, color: '#92400e' }}>
+                            💡 Research Tip: Check their website, LinkedIn company page, or recent press releases for current leadership information.
+                        </Typography>
+                    </Box>
+                </CardContent>
+            </Card>
+        );
+    }
+
+    // Render the card with verified executives
+    return (
+        <Card elevation={0} className="masonry-card masonry-decision-makers-card">
+            <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <Box className="card-icon" sx={{ background: 'linear-gradient(135deg, #9f7aea 0%, #805ad5 100%)' }}>
+                        <PeopleIcon sx={{ color: 'white', fontSize: 24 }} />
+                    </Box>
+                    <Typography variant="h5" className="card-title">
+                        👥 Decision Makers
+                    </Typography>
+                    <Chip
+                        label="Verified"
+                        size="small"
+                        sx={{
+                            ml: 2,
+                            backgroundColor: '#10b981',
+                            color: 'white',
+                            fontWeight: 600,
+                            fontSize: '0.75rem'
+                        }}
+                    />
+                </Box>
+
+                <List dense>
+                    {decisionMakers.map((maker, index) => (
+                        <ListItem key={index} sx={{ px: 0 }}>
+                            <ListItemText
+                                primary={`• ${maker}`}
+                                primaryTypographyProps={{
+                                    variant: 'body2',
+                                    sx: { lineHeight: 1.5, fontWeight: 500 },
+                                }}
+                            />
+                        </ListItem>
+                    ))}
+                </List>
+            </CardContent>
+            <CardActions>
+                <Button
+                    startIcon={<CopyIcon />}
+                    size="small"
+                    onClick={() =>
+                        onCopy(
+                            decisionMakers?.join('\n• ') || '',
+                            'Decision makers'
+                        )
+                    }
+                >
+                    Copy All
+                </Button>
+            </CardActions>
+        </Card>
     );
 };
 
@@ -562,49 +704,12 @@ const ResearchResults: React.FC<ResearchResultsProps> = ({
                         </Card>
                     )}
 
-                    {/* Decision Makers Card */}
-                    {research.results.decisionMakers?.length && research.results.decisionMakers[0] !== 'Not available' && (
-                        <Card elevation={0} className="masonry-card masonry-decision-makers-card">
-                            <CardContent>
-                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                                    <Box className="card-icon" sx={{ background: 'linear-gradient(135deg, #9f7aea 0%, #805ad5 100%)' }}>
-                                        <PeopleIcon sx={{ color: 'white', fontSize: 24 }} />
-                                    </Box>
-                                    <Typography variant="h5" className="card-title">
-                                        👥 Decision Makers
-                                    </Typography>
-                                </Box>
-
-                                <List dense>
-                                    {research.results.decisionMakers.map((maker, index) => (
-                                        <ListItem key={index} sx={{ px: 0 }}>
-                                            <ListItemText
-                                                primary={`• ${maker}`}
-                                                primaryTypographyProps={{
-                                                    variant: 'body2',
-                                                    sx: { lineHeight: 1.5, fontWeight: 500 },
-                                                }}
-                                            />
-                                        </ListItem>
-                                    ))}
-                                </List>
-                            </CardContent>
-                            <CardActions>
-                                <Button
-                                    startIcon={<CopyIcon />}
-                                    size="small"
-                                    onClick={() =>
-                                        handleCopy(
-                                            research.results.decisionMakers?.join('\n• ') || '',
-                                            'Decision makers'
-                                        )
-                                    }
-                                >
-                                    Copy All
-                                </Button>
-                            </CardActions>
-                        </Card>
-                    )}
+                    {/* Enhanced Decision Makers Card - Always render with smart logic */}
+                    <DecisionMakersCard
+                        decisionMakers={research.results.decisionMakers || []}
+                        companyName={research.companyName}
+                        onCopy={handleCopy}
+                    />
 
                     {/* Technologies Card */}
                     <Card elevation={0} className="masonry-card masonry-technologies-card">

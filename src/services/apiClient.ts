@@ -1,6 +1,6 @@
 import { ApiError } from '../types/api';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5003';
 
 class ApiClient {
     private baseURL: string;
