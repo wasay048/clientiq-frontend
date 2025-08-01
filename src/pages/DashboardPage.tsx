@@ -165,6 +165,9 @@ const DashboardPage: React.FC = () => {
                         }}
                     >
                         Welcome back, {user?.firstName}! Generate insights for any company in seconds.
+                        <br />
+                        Client IQ can make mistakes. Check important info.
+
                     </Typography>
                     <Box
                         sx={{
