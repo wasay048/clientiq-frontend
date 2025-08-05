@@ -31,8 +31,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToRegister }) => {
     const { login, loading } = useAuth();
 
     const [formData, setFormData] = useState<LoginData>({
-        email: '',
-        password: '',
+        email: 'demo@clientiq.com',
+        password: '123456Client',
     });
     const [errors, setErrors] = useState<Partial<LoginData>>({});
     const [apiError, setApiError] = useState<string>('');
